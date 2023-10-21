@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+        .lgas {
+            width: fit-content;
+        }
+
+        .popover {
+            display: none;
+            max-height: 300px;
+            width: 150px;
+            overflow-y: scroll;
+        }
+
+        .lgas .popover a {
+            color: black;
+            text-decoration: none;
+        }
+
+        .lgas .popover a:hover {
+            color: rgb(17, 184, 184);
+        }
+
+        .lgas:hover .popover {
+            display: inline-block;
+        }
+    </style>
+    <title>LGA Results</title>
+  </head>
+  <body>
+    {% if lgas%}
+      <div class="lgas">
+        <h3>Hover me to select Local Government Area</h3>
+        <ul class="popover">
+          {% for lga in lgas %}
+          <li style="list-style: none;" ><a href="/lga/{{ lga }}">{{ lga }}</a></li>
+          {% endfor %}
+        </ul>
+      </div>
+    {% endif %}
+    {% if name %}
+    <table>
+      <thead>
+        <tr>
+          <th>Party</th>
+          <th>Votes</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for result in results %}
+        <tr>
+          <td>{{ result['party'] }}</td>
+          <td>{{ result['total_votes'] }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <p>
+      The total votes for {{ name }} LGA is {{ total_votes }}.
+    </p>
+    <a style="text-decoration: none;" href="/lga/">Click me to go back to LGA list</a>
+    {% endif %}
+  </body>
+</html>

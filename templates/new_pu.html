@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Add New Polling Unit Result</title>
+    <style>
+      /* Style to align form elements */
+      form {
+          gap: 10px;
+          max-width: 400px;
+          margin: 0;
+      }
+
+      label, input {
+          width: 100%;
+          padding: 5px;
+          box-sizing: border-box;
+      }
+  </style>
+  </head>
+  <body>
+    <div>
+      {% with messages = get_flashed_messages(with_categories=true) %} {% if
+      messages %}
+      <ul>
+        {% for category, message in messages %}
+        <li style="list-style: none" class="{{ category }}">{{ message }}</li>
+        {% endfor %}
+      </ul>
+      {% endif %} {% endwith %}
+    </div>
+    <h1>Add New Polling Unit Result</h1>
+    <form action="/store_result" method="POST">
+      <label for="polling_unit_uniqueid">Polling Unit Unique ID:</label>
+      <input type="text" name="polling_unit_uniqueid" id="polling_unit_uniqueid" required /><br />
+
+      <div id="party-fields">
+        <label for="party_abbreviation[]">Party Abbreviation:</label>
+        <input type="text" name="party_abbreviation[]">
+        <label for="party_score[]">Party Score:</label>
+        <input type="number" name="party_score[]">
+      </div>
+      <button type="button" onclick="addPartyField()">Add Party</button><br>
+
+      <label for="entered_by_user">Enter Your name:</label>
+      <input type="text" name="entered_by_user" id="entered_by_user" required /><br />
+      <label for="date_entered">Date:</label>
+      <input type="datetime-local" name="date_entered" id="date_entered" required /><br />
+      <label for="user_ip_address">IP Address:</label>
+      <input type="text" name="user_ip_address" id="user_ip_address" required /><br />
+
+      <input type="submit" value="Submit" />
+    </form>
+    <script>
+      // Function to add party fields
+      function addPartyField() {
+        const partyFields = document.getElementById("party-fields");
+        const partyField = document.createElement("div");
+        partyField.innerHTML = `
+              <label for="party_abbreviation[]">Party Abbreviation:</label>
+              <input type="text" name="party_abbreviation[]">
+              <label for="party_score[]">Party Score:</label>
+              <input type="number" name="party_score[]">
+          `;
+        partyFields.appendChild(partyField);
+      }
+    </script>
+  </body>
+</html>

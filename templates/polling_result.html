@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Polling Result</title>
+  </head>
+  <body>
+    <table>
+      <thead>
+        <tr>
+          <th>Party</th>
+          <th>Votes</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for result in results %}
+        <tr>
+          <td>{{ result['party'] }}</td>
+          <td>{{ result['votes'] }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <p>The total votes for the polling unit with id equals {{ id }} is {{ total_votes }}.</p>
+  </body>
+</html>
