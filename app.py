@@ -15,6 +15,7 @@ app.config['SECRET_KEY'] = 'secret_key'
 @app.route('/polling_unit/')
 @app.route('/polling_unit/<int:id>/')
 def polling_results(id=None):
+    """Question 1."""
     if id is None:
         return render_template('new_pu.html')
 
@@ -33,10 +34,10 @@ def polling_results(id=None):
     session.close()
     return render_template('polling_result.html', results=results, total_votes=total_votes, id=id)
 
-
 @app.route('/lga/')
 @app.route('/lga/<name>/')
 def lga_result_details(name=None):
+    """Question 2."""
     session = create_connection()
     if name is None:
         query = text('''SELECT `lga_name` FROM lga''')
@@ -66,6 +67,7 @@ def lga_result_details(name=None):
 
 @app.route('/store_result', methods=['POST'])
 def store_polling_unit_result():
+    """Question 3."""
     if request.method == 'POST':
         session = create_connection()
         polling_unit_uniqueid = request.form['polling_unit_uniqueid']
