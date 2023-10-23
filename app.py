@@ -1,16 +1,30 @@
 from flask import Flask, flash, redirect, render_template, request
 from sqlalchemy import create_engine, text
 from sqlalchemy.orm import sessionmaker
+import dotenv
+import os
+
+dotenv.load_dotenv()
+
+HOST=os.getenv('DB_HOST')
+USER=os.getenv('DB_USER')
+PASSWORD=os.getenv('DB_PASSWORD')
+DB=os.getenv('DB')
+
+app = Flask(__name__)
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 
 def create_connection():
-    engine = create_engine("mysql+mysqldb://root:Optimus081#@localhost/bincom", pool_pre_ping=True)
+    engine = create_engine(f"mysql+mysqldb://{USER}:{PASSWORD}@{HOST}/{DB}", pool_pre_ping=True)
     Session = sessionmaker(bind=engine, expire_on_commit=False)
     session = Session()
     return session
 
 
-app = Flask(__name__)
-app.config['SECRET_KEY'] = 'secret_key'
+@app.route('/')
+def home():
+    return render_template('home.html')
+
 
 @app.route('/polling_unit/')
 @app.route('/polling_unit/<int:id>/')
@@ -40,7 +54,7 @@ def lga_result_details(name=None):
     """Question 2."""
     session = create_connection()
     if name is None:
-        query = text('''SELECT `lga_name` FROM lga''')
+        query = text('''SELECT lga_name FROM lga''')
         query_result = session.execute(query)
         results = [lga[0] for lga in query_result.all()]
         return render_template('lga.html', lgas=results, name=None)
@@ -106,4 +120,4 @@ def store_polling_unit_result():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run()
