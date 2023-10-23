@@ -117,7 +117,3 @@ def store_polling_unit_result():
         return redirect('/polling_unit')
 
     return "Invalid request method."
-
-
-if __name__ == "__main__":
-    app.run()
